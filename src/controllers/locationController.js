@@ -1,10 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
-const { Sequelize } = require('sequelize');
 const sequelize = require('../models/index');
 const init_model = require('../models/init-models')
 const model = init_model(sequelize)
 const { successCode, errorCode, failCode, notFoundCode } = require('../ultis/response')
-
 
 const getLocation = async (req, res) => {
     try {
@@ -38,6 +35,7 @@ const postLocation = async (req, res) => {
         successCode(res, result, "Thêm mới thành công")
     }
     catch (error) {
+        console.log(error)
         errorCode(res, "lỗi backend")
 
     }
@@ -69,7 +67,7 @@ const putLocation = async (req, res) => {
 
 
     } catch (error) {
-        errorCode(res, "loi backend")
+        errorCode(res, "lỗi backend")
         console.log(error)
     }
 }
@@ -86,8 +84,8 @@ const deleteLocation = async (req, res) => {
             })
             successCode(res, null, "Xóa thành công")
         }
-        else{
-            notFoundCode(res,null,"Không tìm thấy tài nguyên")
+        else {
+            notFoundCode(res, null, "Không tìm thấy tài nguyên")
         }
 
     } catch (error) {

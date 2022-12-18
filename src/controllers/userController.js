@@ -1,11 +1,116 @@
-let { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+const sequelize = require('../models/index');
+const init_model = require('../models/init-models')
+const model = init_model(sequelize)
+const { successCode, errorCode, failCode, notFoundCode } = require('../ultis/response')
+const { Op } = require("sequelize");
+
 
 const getUser = async (req, res) => {
-    let danhSach = await prisma.NguoiDung.findMany(
-
-    )
-    res.send(danhSach)
+    try {
+        let { id } = req.params
+        if (!id) {
+            let result = await model.NguoiDung.findAll()
+            successCode(res, result)
+        }
+        else {
+            let result = await model.NguoiDung.findOne({
+                where: { id }
+            })
+            if (!result) {
+                notFoundCode(res, null, "Không tìm thấy tài nguyên")
+                return
+            }
+            successCode(res, result)
+        }
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+    }
 }
 
-module.exports =  {getUser} 
+
+const postUser = async (req, res) => {
+    try {
+        let { id, name, email, password, phone, birthday, gender, role } = req.body
+        const checkDup = await model.NguoiDung.findOne({
+            where: { email }
+        })
+        if (checkDup) {
+            failCode(res, "Email đã tồn tại", "Yêu cầu không hợp lệ")
+        }
+        else {
+            let userNew = { name, email, password, phone, birthday, gender, role }
+            let result = await model.NguoiDung.create(userNew)
+            successCode(res, result, "Thêm mới thành công")
+        }
+    }
+    catch (error) {
+        errorCode(res, "lỗi backend")
+
+    }
+}
+const putUser = async (req, res) => {
+    try {
+        let { id } = req.params
+        let { name, email, password, phone, birthday, gender, role } = req.body
+        let checkUser = await model.ViTri.findOne({
+            where: { id }
+        }
+        )
+        if (checkUser) {
+            let userUpdate = {
+
+                name, email, password, phone, birthday, gender, role
+            }
+            await model.NguoiDung.update(userUpdate, { where: { id } })
+            successCode(res, { ...req.body, id }, "Cập nhật thành công")
+        }
+        else {
+            notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
+        }
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+
+    }
+}
+const deleteUser = async (req, res) => {
+    try {
+        let { id } = req.params
+        let checkUser = await model.NguoiDung.findOne({
+            where: { id }
+        })
+        if (checkUser) {
+            let result = await model.NguoiDung.destroy({
+                where: { id }
+            })
+            successCode(res, null, "Xóa thành công")
+        }
+        else {
+            notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
+
+
+        }
+
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+    }
+}
+
+const searchUser = async (req, res) => {
+    try {
+        let { tenNguoiDung } = req.params
+        let checkUser = await model.NguoiDung.findAll({
+            where: { 
+                email:{
+                    [Op.like]:`%${tenNguoiDung}%`
+                }
+             }
+        })
+        successCode(res,checkUser)
+
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+
+    }
+}
+
+module.exports = { getUser, postUser, putUser, deleteUser, searchUser } 

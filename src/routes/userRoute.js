@@ -1,16 +1,18 @@
 const express = require('express');
 const userRoute = express.Router();
-const { getUser  } = require('../controllers/userController');
+const { getUser ,postUser, putUser, deleteUser,searchUser } = require('../controllers/userController');
 
-// localhost:8080/user/getUser
 
 //GET
-userRoute.get("/", getUser);
+userRoute.get("/:id?", getUser);
 // //POST
-// userRoute.post("/postUser", postUser);
+userRoute.post("/", postUser);
 // //PUT
-// userRoute.put("/putUser/:id", updateUser);
+userRoute.put("/:id", putUser);
 // // DELETE
-// userRoute.delete("/deleteUser/:id", removeUser);
+userRoute.delete("/:id", deleteUser);
+
+//SEARCH
+userRoute.get("/search/:tenNguoiDung",searchUser)
 
 module.exports = userRoute;

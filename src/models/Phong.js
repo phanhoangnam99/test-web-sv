@@ -36,6 +36,7 @@ class Phong extends Sequelize.Model {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+   
     may_giat: {
       type: DataTypes.BOOLEAN,
       allowNull: true
@@ -54,6 +55,10 @@ class Phong extends Sequelize.Model {
     },
     wifi: {
       type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    giuong: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     bep: {
@@ -76,14 +81,7 @@ class Phong extends Sequelize.Model {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    ma_nguoi_dat: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'NguoiDung',
-        key: 'id'
-      }
-    },
+   
     ma_vi_tri: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -105,13 +103,7 @@ class Phong extends Sequelize.Model {
           { name: "id" },
         ]
       },
-      {
-        name: "ma_nguoi_dat",
-        using: "BTREE",
-        fields: [
-          { name: "ma_nguoi_dat" },
-        ]
-      },
+     
       {
         name: "ma_vi_tri",
         using: "BTREE",
