@@ -12,46 +12,54 @@ class Phong extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    ten_phong: {
+    tenPhong: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
+      field:"ten_phong"
     },
     khach: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    phong_ngu: {
+    phongNgu: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      field:"phong_ngu"
     },
-    phong_tam: {
+    phongTam: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      field:"phong_tam"
     },
-    mo_ta: {
+    moTa: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
+      field:"mo_ta"
     },
-    gia_tien: {
+    giaTien: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      field:"gia_tien"
     },
    
-    may_giat: {
+    mayGiat: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"may_giat"
     },
-    ban_la: {
+    banLa: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"ban_la"
     },
     tivi: {
       type: DataTypes.BOOLEAN,
       allowNull: true
     },
-    dieu_hoa: {
+    dieuHoa: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"dieu_hoa"
     },
     wifi: {
       type: DataTypes.BOOLEAN,
@@ -65,26 +73,31 @@ class Phong extends Sequelize.Model {
       type: DataTypes.BOOLEAN,
       allowNull: true
     },
-    do_xe: {
+    doXe: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"do_xe"
     },
-    ho_boi: {
+    hoBoi: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"ho_boi"
     },
-    ban_ui: {
+    banUi: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      field:"ban_ui"
     },
-    hinh_anh: {
+    hinhAnh: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
+      field:"hinh_anh"
     },
    
-    ma_vi_tri: {
+    maViTri: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      field:"ma_vi_tri",
       references: {
         model: 'ViTri',
         key: 'id'

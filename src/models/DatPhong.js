@@ -12,31 +12,36 @@ class DatPhong extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    ma_phong: {
+    maPhong: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      field:"ma_phong",
       references: {
         model: 'Phong',
         key: 'id'
       }
     },
-    ngay_den: {
+    ngayDen: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
+      field:"ngay_den"
     },
-    ngay_di: {
+    ngayDi: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
+      field:'ngay_di'
     },
-    so_luong_khach: {
+    soLuongKhach: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      field:'so_luong_khach'
     },
-    ma_nguoi_dat: {
+    maNguoiDung: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      field:'ma_nguoi_dat',
       references: {
         model: 'NguoiDung',
         key: 'id'

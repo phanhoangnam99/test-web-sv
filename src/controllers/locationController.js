@@ -68,7 +68,6 @@ const putLocation = async (req, res) => {
 
     } catch (error) {
         errorCode(res, "lỗi backend")
-        console.log(error)
     }
 }
 

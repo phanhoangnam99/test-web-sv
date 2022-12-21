@@ -21,6 +21,7 @@ const successCode = (res, data, message) => {
       message,
       content: data
     })
+    return
 
   }
   
