@@ -99,13 +99,13 @@ const searchUser = async (req, res) => {
     try {
         let { tenNguoiDung } = req.params
         let checkUser = await model.NguoiDung.findAll({
-            where: { 
-                email:{
-                    [Op.like]:`%${tenNguoiDung}%`
+            where: {
+                email: {
+                    [Op.like]: `%${tenNguoiDung}%`
                 }
-             }
+            }
         })
-        successCode(res,checkUser)
+        successCode(res, checkUser)
 
     } catch (error) {
         errorCode(res, "lỗi backend")
@@ -113,4 +113,36 @@ const searchUser = async (req, res) => {
     }
 }
 
-module.exports = { getUser, postUser, putUser, deleteUser, searchUser } 
+const uploadAvatar = async (req, res) => {
+
+    try {
+        let { maNguoiDung } = req.body
+
+        let checkUser = await model.NguoiDung.findOne({ where: { id: maNguoiDung } })
+
+        if (checkUser) {
+            const fs = require('fs');
+
+
+            fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
+                let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
+                fs.unlinkSync(process.cwd() + "/" + req.file.path);
+                let result = await model.NguoiDung.update({hinhAnh:fileName},{where:{id:maNguoiDung}})
+                successCode(res,fileName,"Thêm mới thành công")
+
+            })
+        }
+        else {
+            notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
+        }
+
+
+
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+    }
+
+}
+
+
+module.exports = { getUser, postUser, putUser, deleteUser, searchUser, uploadAvatar } 

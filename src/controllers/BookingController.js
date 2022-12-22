@@ -61,7 +61,6 @@ const postBooking = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error)
         errorCode(res, "lỗi backend")
 
     }

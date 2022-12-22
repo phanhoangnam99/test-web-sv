@@ -1,18 +1,13 @@
 const express = require('express');
 const userRoute = express.Router();
-const { getUser ,postUser, putUser, deleteUser,searchUser } = require('../controllers/userController');
+const { getUser ,postUser, putUser, deleteUser,searchUser,uploadAvatar } = require('../controllers/userController');
+const upload = require('../middlewares/upload')
 
-
-//GET
 userRoute.get("/:id?", getUser);
-// //POST
 userRoute.post("/", postUser);
-// //PUT
 userRoute.put("/:id", putUser);
-// // DELETE
 userRoute.delete("/:id", deleteUser);
-
-//SEARCH
 userRoute.get("/search/:tenNguoiDung",searchUser)
+userRoute.post('/upload-avatar',upload.single("upload"),uploadAvatar)
 
 module.exports = userRoute;

@@ -42,6 +42,12 @@ class NguoiDung extends Sequelize.Model {
     role: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    hinhAnh: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field:'hinh_anh'
+
     }
   }, {
     sequelize,
