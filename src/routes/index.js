@@ -13,7 +13,6 @@ rootRoute.use("/auth", authRoute);
 rootRoute.use('/binh-luan',commentRoute)
 rootRoute.use('/vi-tri',locationRoute)
 rootRoute.use('/phong-thue',roomRoute)
-rootRoute.use('/phong-thue',roomRoute)
 rootRoute.use('/dat-phong',bookingRoute)
 
 module.exports = rootRoute;

@@ -61,6 +61,7 @@ const postBooking = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error)
         errorCode(res, "lỗi backend")
 
     }
@@ -135,7 +136,6 @@ const getBookingWUserId = async (req,res) => {
         let result = await model.DatPhong.findAll({ where: { maNguoiDung: MaNguoiDung } })
         successCode(res, result)
     } catch (error) {
-console.log(error   )
         errorCode(res, "lỗi backend")
     }
 

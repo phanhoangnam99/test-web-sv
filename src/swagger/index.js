@@ -215,7 +215,7 @@
  *               type: string
  *             soLuongKhach:
  *               type: integer
- *             maNguoidung:
+ *             maNguoiDung:
  *               type: integer
  *       
  *             
@@ -611,7 +611,7 @@
 
 /**
  * @swagger
- * /api/phong-thue:
+ * /api/phong-thue/{id}:
  *  put:
  *      tags: [Phong]
  *      parameters:

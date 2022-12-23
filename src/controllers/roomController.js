@@ -2,16 +2,25 @@ const sequelize = require('../models/index');
 const init_model = require('../models/init-models')
 const model = init_model(sequelize)
 const { successCode, errorCode, failCode, notFoundCode } = require('../ultis/response')
-const {Op} = require('sequelize')
+const { Op } = require('sequelize')
 
 
 const getRoom = async (req, res) => {
     try {
+        let { id } = req.params
+        if (!id) {
+            let result = await model.Phong.findAll()
+            successCode(res, result)
+        }
+        else {
+            let result = await model.Phong.findOne({ where: { id } })
+            if (!result) {
+                notFoundCode(res, null, "Không tìm thấy tài nguyên")
+                return
+            }
+            successCode(res, result)
+        }
 
-        let result = await model.Phong.findAll()
-
-
-        successCode(res, result)
 
     } catch (error) {
         console.log(error)
@@ -98,6 +107,7 @@ const postRoom = async (req, res) => {
 }
 const putRoom = async (req, res) => {
     try {
+        console.log("ec")
         let { id } = req.params
         let {
 
@@ -120,14 +130,12 @@ const putRoom = async (req, res) => {
             maViTri,
             hinhAnh
         } = req.body
-        let checkRoom = await model.Phong.findOne({
-            where: { id }
-        })
+
         let checkLocation = await model.ViTri.findOne({
             where: { id: maViTri }
         }
         )
-        if (checkRoom && checkLocation) {
+        if (checkLocation) {
             let roomUpdate = {
 
                 tenPhong,

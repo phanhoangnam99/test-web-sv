@@ -23,12 +23,12 @@ class DatPhong extends Sequelize.Model {
       }
     },
     ngayDen: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(255),
       allowNull: true,
       field:"ngay_den"
     },
     ngayDi: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(255),
       allowNull: true,
       field:'ngay_di'
     },
