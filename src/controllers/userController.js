@@ -116,27 +116,26 @@ const searchUser = async (req, res) => {
 const uploadAvatar = async (req, res) => {
 
     try {
-        // let { maNguoiDung } = req.body
+        let { maNguoiDung } = req.body
 
-        // let checkUser = await model.NguoiDung.findOne({ where: { id: maNguoiDung } })
+        let checkUser = await model.NguoiDung.findOne({ where: { id: maNguoiDung } })
 
-        // if (checkUser) {
-        //     const fs = require('fs');
+        if (checkUser) {
+            const fs = require('fs');
 
 
-        //     fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
-        //         let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
-        //         fs.unlinkSync(process.cwd() + "/" + req.file.path);
-        //         let result = await model.NguoiDung.update({ hinhAnh: fileName }, { where: { id: maNguoiDung } })
-        //         successCode(res, fileName, "Thêm mới thành công")
+            fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
+                let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
+                fs.unlinkSync(process.cwd() + "/" + req.file.path);
+                let result = await model.NguoiDung.update({ hinhAnh: fileName }, { where: { id: maNguoiDung } })
+                successCode(res, fileName, "Thêm mới thành công")
 
-        //     })
-        // }
-        // else {
-        //     notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
-        // }
-let lmao = process.cwd() + "/" + req.file
-console.log(lmao)
+            })
+        }
+        else {
+            notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
+        }
+
 
 
     } catch (error) {
