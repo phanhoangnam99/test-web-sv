@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json .
 
-RUN yarn add
+RUN yarn install
 
 COPY . .
 
