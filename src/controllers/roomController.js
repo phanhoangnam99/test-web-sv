@@ -2,6 +2,7 @@ const sequelize = require('../models/index');
 const init_model = require('../models/init-models')
 const model = init_model(sequelize)
 const { successCode, errorCode, failCode, notFoundCode } = require('../ultis/response')
+const {Op} = require('sequelize')
 
 
 const getRoom = async (req, res) => {
@@ -169,7 +170,7 @@ const deleteRoom = async (req, res) => {
             where: { id }
         })
         if (checkRoom) {
-            let result = await model.ViTri.destroy({
+            let result = await model.Phong.destroy({
                 where: { id }
             })
             successCode(res, null, "Xóa thành công")
@@ -212,9 +213,54 @@ const uploadRoomPic = async (req, res) => {
     } catch (error) {
         errorCode(res, "lỗi backend")
     }
+}
+const roomPagination = async (req, res) => {
+    try {
+        let { pageSize, pageIndex, keyword } = req.query
 
+        if (keyword) {
+            const result = await model.Phong.findAndCountAll({
+
+                where: {
+                    tenPhong: {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }
+                ,
+                offset: +pageIndex * +pageSize - +pageSize,
+                limit: +pageSize
+            })
+            let data = {
+                pageIndex,
+                pageSize,
+                keyword,
+                totalRow: result.count,
+                data: result.rows
+            }
+            res.send(data)
+
+        }
+        else {
+            const result = await model.Phong.findAndCountAll({
+                offset: +pageIndex * +pageSize - +pageSize,
+                limit: +pageSize
+            })
+            let data = {
+                pageIndex,
+                pageSize,
+                keyword,
+                totalRow: result.count,
+                data: result.rows
+            }
+            res.send(data)
+        }
+    } catch (error) {
+        errorCode(res, 'loi backend')
+    }
 }
 
 
 
-module.exports = { getRoom, getRoomWLocation, postRoom, putRoom, deleteRoom, uploadRoomPic }
+
+
+module.exports = { getRoom, getRoomWLocation, postRoom, putRoom, deleteRoom, uploadRoomPic, roomPagination }

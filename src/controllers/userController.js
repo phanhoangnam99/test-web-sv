@@ -52,7 +52,7 @@ const putUser = async (req, res) => {
     try {
         let { id } = req.params
         let { name, email, password, phone, birthday, gender, role } = req.body
-        let checkUser = await model.ViTri.findOne({
+        let checkUser = await model.NguoiDung.findOne({
             where: { id }
         }
         )
@@ -100,7 +100,7 @@ const searchUser = async (req, res) => {
         let { tenNguoiDung } = req.params
         let checkUser = await model.NguoiDung.findAll({
             where: {
-                email: {
+                name: {
                     [Op.like]: `%${tenNguoiDung}%`
                 }
             }
@@ -116,33 +116,81 @@ const searchUser = async (req, res) => {
 const uploadAvatar = async (req, res) => {
 
     try {
-        let { maNguoiDung } = req.body
+        // let { maNguoiDung } = req.body
 
-        let checkUser = await model.NguoiDung.findOne({ where: { id: maNguoiDung } })
+        // let checkUser = await model.NguoiDung.findOne({ where: { id: maNguoiDung } })
 
-        if (checkUser) {
-            const fs = require('fs');
+        // if (checkUser) {
+        //     const fs = require('fs');
 
 
-            fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
-                let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
-                fs.unlinkSync(process.cwd() + "/" + req.file.path);
-                let result = await model.NguoiDung.update({hinhAnh:fileName},{where:{id:maNguoiDung}})
-                successCode(res,fileName,"Thêm mới thành công")
+        //     fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
+        //         let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
+        //         fs.unlinkSync(process.cwd() + "/" + req.file.path);
+        //         let result = await model.NguoiDung.update({ hinhAnh: fileName }, { where: { id: maNguoiDung } })
+        //         successCode(res, fileName, "Thêm mới thành công")
 
-            })
-        }
-        else {
-            notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
-        }
-
+        //     })
+        // }
+        // else {
+        //     notFoundCode(res, "Người dùng không tồn tại", "Không tìm thấy tài nguyên")
+        // }
+let lmao = process.cwd() + "/" + req.file
+console.log(lmao)
 
 
     } catch (error) {
+        console.log(error)
         errorCode(res, "lỗi backend")
     }
 
 }
 
 
-module.exports = { getUser, postUser, putUser, deleteUser, searchUser, uploadAvatar } 
+const userPagination = async (req, res) => {
+    try {
+        let { pageSize, pageIndex, keyword } = req.query
+
+        if (keyword) {
+            const result = await model.NguoiDung.findAndCountAll({
+
+                where: {
+                    name: {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }
+                ,
+                offset: +pageIndex * +pageSize - +pageSize,
+                limit: +pageSize
+            })
+            let data = {
+                pageIndex,
+                pageSize,
+                keyword,
+                totalRow: result.count,
+                data: result.rows
+            }
+            res.send(data)
+
+        }
+        else {
+            const result = await model.NguoiDung.findAndCountAll({
+                offset: +pageIndex * +pageSize - +pageSize,
+                limit: +pageSize
+            })
+            let data = {
+                pageIndex,
+                pageSize,
+                keyword,
+                totalRow: result.count,
+                data: result.rows
+            }
+            res.send(data)
+        }
+    } catch (error) {
+
+        errorCode(res, 'loi backend')
+    }
+}
+
+module.exports = { getUser, postUser, putUser, deleteUser, searchUser, uploadAvatar, userPagination } 

@@ -90,6 +90,7 @@ const deleteLocation = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error)
         errorCode(res, "lỗi backend")
     }
 }
