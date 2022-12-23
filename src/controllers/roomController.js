@@ -23,7 +23,7 @@ const getRoomWLocation = async (req, res) => {
         let { maViTri } = req.query
 
         let result = await model.Phong.findAll({
-            where: {  maViTri }
+            where: { maViTri }
         })
         if (!result) {
             notFoundCode(res, null, "Không tìm thấy tài nguyên")
@@ -184,4 +184,37 @@ const deleteRoom = async (req, res) => {
 }
 
 
-module.exports = { getRoom, getRoomWLocation, postRoom, putRoom, deleteRoom }
+const uploadRoomPic = async (req, res) => {
+
+    try {
+        let { maPhong } = req.body
+
+        let checkRoom = await model.Phong.findOne({ where: { id: maPhong } })
+
+        if (checkRoom) {
+            const fs = require('fs');
+
+
+            fs.readFile(process.cwd() + "/" + req.file.path, async (err, data) => {
+                let fileName = `data:${req.file.mimetype};base64,${Buffer.from(data).toString("base64")}`;
+                fs.unlinkSync(process.cwd() + "/" + req.file.path);
+                let result = await model.Phong.update({ hinhAnh: fileName }, { where: { id: maPhong } })
+                successCode(res, fileName, "Thêm mới thành công")
+
+            })
+        }
+        else {
+            notFoundCode(res, "Mã phòng không tồn tại", "Không tìm thấy tài nguyên")
+        }
+
+
+
+    } catch (error) {
+        errorCode(res, "lỗi backend")
+    }
+
+}
+
+
+
+module.exports = { getRoom, getRoomWLocation, postRoom, putRoom, deleteRoom, uploadRoomPic }

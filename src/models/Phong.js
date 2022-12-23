@@ -89,7 +89,7 @@ class Phong extends Sequelize.Model {
       field:"ban_ui"
     },
     hinhAnh: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: true,
       field:"hinh_anh"
     },
