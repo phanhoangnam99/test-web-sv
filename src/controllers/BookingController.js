@@ -150,6 +150,6 @@ module.exports = {
     getBooking,
     postBooking,
     putBooking,
-    deleteBooking,
+    deleteBooking, 
     getBookingWUserId
 }
