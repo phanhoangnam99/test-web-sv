@@ -20,7 +20,7 @@ services:
     container_name: container-node
     env_file: .env
     environment:
-      - DB_HOST=mysql_db
+      - DB_HOST=airbnb_db
       - DB_DIALECT=mysql
       - DB_NAME=db_airbnb
       - DB_PORT=3306
