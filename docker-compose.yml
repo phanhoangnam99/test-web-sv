@@ -13,8 +13,7 @@ services:
       - mysql_db:/var/lib/mysql
     networks:
       - node-network
-    command:
-        sh -c "mysqldump -p1234 db_airbnb | mysql -h54.179.228.27 -uubuntu -p1234 db_airbnb"
+   
   app:
     depends_on:
       - mysql_db
