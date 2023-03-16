@@ -13,6 +13,8 @@ services:
       - mysql_db:/var/lib/mysql
     networks:
       - node-network
+    command:
+        sh -c "mysqldump -uroot -p1234 db_airbnb | mysql -h 54.179.228.27 -uroot -p db_airbnb"
   app:
     depends_on:
       - mysql_db
@@ -20,7 +22,7 @@ services:
     container_name: container-node
     env_file: .env
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=mysql_db
       - DB_DIALECT=mysql
       - DB_NAME=db_airbnb
       - DB_PORT=3306
