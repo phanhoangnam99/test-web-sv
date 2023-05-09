@@ -2,7 +2,7 @@ version: '3'
 services:
   mysql_db:
     image: mysql
-    container_name: airbnb_db
+    container_name: db_airbnb
     env_file: .env
     environment:
       - MYSQL_ROOT_PASSWORD=1234
