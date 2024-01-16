@@ -2,7 +2,7 @@ version: '3'
 services:
   mysql_db:
     image: mysql
-    container_name: airbnb_db
+    container_name: ${db_name}
     env_file: .env
     environment:
       - MYSQL_ROOT_PASSWORD=1234
@@ -24,9 +24,9 @@ services:
       - DB_HOST=mysql_db
       - DB_DIALECT=mysql
       - DB_NAME=db_airbnb
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASS=1234 
+      - DB_PORT
+      - DB_USER
+      - DB_PASS
     ports:
       - "80:8080"
     networks:
